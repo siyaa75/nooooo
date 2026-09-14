@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👩‍💻前製部 3月報✨</title>
+    <style>
+        /* =========================================
+           基礎設定 (Base & Reset)
+           ========================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Microsoft JhengHei', 'PingFang TC', 'Helvetica Neue', sans-serif; 
+            background-color: #f8fafc; 
+            color: #334155; 
+            line-height: 1.6;
+            padding: 20px;
+        }
+        @media (min-width: 768px) { body { padding: 30px; } }
+        
+        /* =========================================
+           佈局系統 (Grid & Flexbox)
+           ========================================= */
+        .container { max-width: 1400px; margin: 0 auto; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .grid { display: grid; gap: 24px; }
+        
+        .main-grid { grid-template-columns: 1fr; margin-bottom: 24px; }
+        .col-left { grid-column: span 1; }
+        .col-middle { grid-column: span 1; }
+        .col-right { grid-column: span 1; }
+
+        /* 響應式：桌面版三欄佈局 */
+        @media (min-width: 1200px) {
+            .main-grid { grid-template-columns: repeat(12, 1fr); }
+            .col-left { grid-column: span 3; }
+            .col-middle { grid-column: span 5; }
+            .col-right { grid-column: span 4; }
+        }
+
+        /* 雙欄圖表佈局 */
+        .chart-grid { grid-template-columns: 1fr; margin-bottom: 24px; }
+        @media (min-width: 768px) { .chart-grid { grid-template-columns: 1fr 1fr; } }
+
+        /* =========================================
+           卡片與視覺元素 (Cards & UI Elements)
+           ========================================= */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        .header-card {
+            border-left: 8px solid #4f46e5;
+            margin-bottom: 24px;
+        }
+        .top-border-indigo { border-top: 4px solid #6366f1; }
+        .top-border-rose { border-top: 4px solid #f43f5e; }
+        
+        /* 數據方塊 */
+        .metric-box {
+            border-radius: 12px; padding: 12px 20px; text-align: center; min-width: 100px; border: 1px solid;
+        }
+        .metric-indigo { background: #eef2ff; border-color: #e0e7ff; }
+        .metric-emerald { background: #ecfdf5; border-color: #d1fae5; }
+        .metric-rose { background: #fff1f2; border-color: #ffe4e6; }
+        .metric-amber { background: #fffbeb; border-color: #fef3c7; }
+        .metric-val { font-size: 24px; font-weight: bold; line-height: 1.2; }
+        .metric-label { font-size: 10px; text-transform: uppercase; font-weight: bold; margin-top: 4px; }
+
+        /* 成員小卡 */
+        .member-card {
+            background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px; padding: 16px;
+            margin-bottom: 16px; transition: all 0.2s ease;
+        }
+        .member-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); border-color: #cbd5e1; }
+        
+        /* 標籤 (Pills) */
+        .pill { font-size: 11px; padding: 4px 8px; border-radius: 999px; font-weight: bold; white-space: nowrap; }
+        .pill-gray { background: #f1f5f9; color: #64748b; }
+        .pill-indigo { background: #e0e7ff; color: #4f46e5; }
+        .pill-amber { background: #fef3c7; color: #d97706; }
+        .pill-emerald { background: #d1fae5; color: #059669; }
+        .pill-sky { background: #e0f2fe; color: #0284c7; }
+        .pill-rose { background: #ffe4e6; color: #e11d48; }
+
+        /* 文字樣式 */
+        h1 { font-size: 28px; color: #1e293b; margin-bottom: 4px; }
+        h2 { font-size: 18px; color: #1e293b; margin-bottom: 20px; display: flex; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;}
+        h3 { font-size: 15px; color: #334155; font-weight: bold; }
+        p { font-size: 13px; color: #64748b; }
+        .desc-text { font-size: 13px; color: #475569; line-height: 1.6; margin-top: 8px; }
+        
+        /* =========================================
+           時間軸/里程碑 (Timeline)
+           ========================================= */
+        .timeline { border-left: 2px solid #e2e8f0; margin-left: 12px; padding-bottom: 16px; }
+        .timeline-item { position: relative; padding-left: 24px; margin-bottom: 32px; }
+        .timeline-dot {
+            position: absolute; left: -9px; top: 4px; width: 16px; height: 16px; 
+            background: white; border-radius: 50%; border: 4px solid;
+        }
+        .dot-rose { border-color: #fb7185; }
+        .dot-emerald { border-color: #34d399; }
+        .dot-amber { border-color: #fbbf24; }
+        .dot-sky { border-color: #38bdf8; }
+        .task-box { background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; padding: 14px; margin-top: 8px; transition: all 0.2s ease; }
+        .task-box:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); border-color: #cbd5e1; }
+
+        /* =========================================
+           純 CSS 圖表 (Pure CSS Charts)
+           ========================================= */
+        .chart-wrapper { display: flex; align-items: center; justify-content: center; margin: 20px 0; }
+        
+        .css-pie {
+            width: 160px; height: 160px; border-radius: 50%;
+            background: conic-gradient(
+                #3b82f6 0% 55%, 
+                #f59e0b 55% 80%, 
+                #10b981 80% 100%
+            );
+        }
+        
+        .css-doughnut {
+            width: 160px; height: 160px; border-radius: 50%; position: relative;
+            background: conic-gradient(
+                #6366f1 0% 50%, 
+                #0ea5e9 50% 75%, 
+                #f43f5e 75% 90%, 
+                #a855f7 90% 100%
+            );
+        }
+        .css-doughnut::after {
+            content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90px; height: 90px; background: #ffffff; border-radius: 50%;
+        }
+
+        .legend { list-style: none; margin-left: 24px; font-size: 12px; color: #64748b; }
+        .legend li { display: flex; align-items: center; margin-bottom: 8px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 1. Header Metrics -->
+    <header class="card header-card flex justify-between items-center" style="flex-wrap: wrap;">
+        <div style="margin-bottom: 16px;">
+            <h1>🧠MOONSHINE 前製部月報⭐</h1>
+            <div class="flex items-center gap-2" style="margin-top: 4px;">
+                <span class="pill pill-gray">2026年3月</span>
+                <span class="text-sm" style="border-left: 1px solid #cbd5e1; padding-left: 8px; color: #64748b;">大家的3月份 分析報告</span>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <div class="metric-box metric-indigo">
+                <div class="metric-val" style="color: #4f46e5;">34件</div>
+                <div class="metric-label" style="color: #818cf8;">總執行專案</div>
+            </div>
+            <div class="metric-box metric-emerald">
+                <div class="metric-val" style="color: #059669;">100%</div>
+                <div class="metric-label" style="color: #34d399;">團隊負載</div>
+            </div>
+            <div class="metric-box metric-amber">
+                <div class="metric-val" style="color: #d97706;">-1 / +1</div>
+                <div class="metric-label" style="color: #f59e0b;">異動與交接</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Charts Section (Pure CSS) -->
+    <div class="grid chart-grid">
+        <!-- Chart 1: By Department -->
+        <div class="card">
+            <h2>
+                <span style="width: 6px; height: 20px; background: #3b82f6; border-radius: 4px; margin-right: 10px;"></span>
+                專案來源部門佔比 (By Dept)
+            </h2>
+            <div class="chart-wrapper">
+                <div class="css-pie"></div>
+                <ul class="legend">
+                    <li><div class="legend-dot" style="background: #3b82f6;"></div>廣告部 (Advertising) - 55%</li>
+                    <li><div class="legend-dot" style="background: #f59e0b;"></div>動畫部 (Animation) - 25%</li>
+                    <li><div class="legend-dot" style="background: #10b981;"></div>前製部 (Pre-prod) - 20%</li>
+                </ul>
+            </div>
+            <p style="text-align: center; font-size: 11px; margin-top: 16px;">* Computex 逼近，廣告部產品展覽影片數量顯著攀升</p>
+        </div>
+
+        <!-- Chart 2: By Project Type -->
+        <div class="card">
+            <h2>
+                <span style="width: 6px; height: 20px; background: #f59e0b; border-radius: 4px; margin-right: 10px;"></span>
+                專案類型分佈 (By Type)
+            </h2>
+            <div class="chart-wrapper">
+                <div class="css-doughnut"></div>
+                <ul class="legend">
+                    <li><div class="legend-dot" style="background: #6366f1;"></div>廣告/展覽 (Ad/Expo) - 50%</li>
+                    <li><div class="legend-dot" style="background: #0ea5e9;"></div>產品 (Product) - 25%</li>
+                    <li><div class="legend-dot" style="background: #f43f5e;"></div>原創/IP (Original) - 15%</li>
+                    <li><div class="legend-dot" style="background: #a855f7;"></div>投影/策展 (Project) - 10%</li>
+                </ul>
+            </div>
+            <p style="text-align: center; font-size: 11px; margin-top: 16px;">* 大量硬體品牌參展影片進場，全面進入備戰狀態</p>
+        </div>
+    </div>
+
+    <!-- 3. Team Analysis Grid -->
+    <div class="grid main-grid">
+
+        <!-- Left Column: Overview Alerts -->
+        <div class="col-left">
+            <div class="card" style="margin-bottom: 24px; height: auto;">
+                <h2 style="border: none; padding-bottom: 0;">
+                    <span style="width: 6px; height: 20px; background: #6366f1; border-radius: 4px; margin-right: 10px;"></span>
+                    本月關鍵分析
+                </h2>
+                <ul style="list-style: none; margin-top: 16px;">
+                    <li style="border-left: 2px solid #818cf8; padding-left: 12px; margin-bottom: 16px;">
+                        <strong style="color: #4338ca; font-size: 13px; display: block;">Computex 備戰極限</strong>
+                        <span style="font-size: 12px; color: #64748b;">專案達34件，設計組在減員下依舊保持100%滿載，成功扛起大量需求。</span>
+                    </li>
+                    <li style="border-left: 2px solid #fbbf24; padding-left: 12px; margin-bottom: 16px;">
+                        <strong style="color: #d97706; font-size: 13px; display: block;">新血上陣與職務交接</strong>
+                        <span style="font-size: 12px; color: #64748b;">小高正式加入實戰；柏安準備四月育嬰假，陸續啟動多項專案交接。</span>
+                    </li>
+                    <li style="border-left: 2px solid #34d399; padding-left: 12px;">
+                        <strong style="color: #059669; font-size: 13px; display: block;">AI 與 3D 技能常態化</strong>
+                        <span style="font-size: 12px; color: #64748b;">Blender 技能大躍進。Gemini生成與Blender建模已深入日常工作流。</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Middle Column: Design Concept Group -->
+        <div class="col-middle">
+            <div class="card top-border-indigo">
+                <div class="flex justify-between items-center" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+                    <h2 style="border: none; margin: 0; padding: 0;">🎨 設計概念組</h2>
+                    <span class="pill pill-gray">Loading: 100%</span>
+                </div>
+                
+                <!-- Member Cards -->
+                <div class="member-card">
+                    <div class="flex justify-between" style="margin-bottom: 4px;">
+                        <div>
+                            <h3 style="display:inline-block; margin-right:8px;">語桐老師</h3>
+                            <span class="pill pill-indigo">Tech</span>
+                        </div>
+                        <span style="font-size: 11px; font-weight: bold; color: #6366f1;">地球館、薛之謙</span>
+                    </div>
+                    <p class="desc-text">
+                        <strong>亮點：</strong>優化薛之謙 2D 動態與 3D 轉場；運用 Gemini 快速產出地球館發光生物設定。<br>
+                        <strong>支援：</strong>支援 MSI Titan、ROG BV 隧道及全支付 SF。<br>
+                        <strong style="color: #e11d48;">注意：</strong>高頻率跨專案支援容易導致焦點分散，需嚴格控管精力分配與排程。
+                    </p>
+                </div>
+
+                <div class="member-card">
+                    <div class="flex justify-between" style="margin-bottom: 4px;">
+                        <div>
+                            <h3 style="display:inline-block; margin-right:8px;">家綺</h3>
+                            <span class="pill pill-amber">Concept</span>
+                        </div>
+                        <span style="font-size: 11px; font-weight: bold; color: #f59e0b;">鳩摩羅什、故宮、大凶</span>
+                    </div>
+                    <p class="desc-text">
+                        <strong>亮點：</strong>穩定產出《鳩摩羅什》多張 SF 素材並成功收尾。<br>
+                        <strong>支援：</strong>協助《故宮》分鏡修改、《ROG BV》手機 UI 及《大凶》尾卡 2D 動態。<br>
+                        <strong style="color: #e11d48;">注意：</strong>處理多項高精細度分鏡與插畫，需嚴格控管單張繪製工時以防超載。
+                    </p>
+                </div>
+
+                <div class="member-card">
+                    <div class="flex justify-between" style="margin-bottom: 4px;">
+                        <div>
+                            <h3 style="display:inline-block; margin-right:8px;">芝翊</h3>
+                            <span class="pill pill-sky">Scene</span>
+                        </div>
+                        <span style="font-size: 11px; font-weight: bold; color: #0ea5e9;">男公館、宜鼎、ROG線材</span>
+                    </div>
+                    <p class="desc-text">
+                        <strong>亮點：</strong>高效完成《男公館》SF 更新；推進《宜鼎》Concept。<br>
+                        <strong>技能：</strong>運用 Illustrator 結合 Blender 繪製《ROG 線材》UI 光束；繪製 MSI 分鏡。<br>
+                        <strong style="color: #e11d48;">注意：</strong>2D分鏡與3D建模雙線並行，需與前期企劃明確對焦減少重工風險。
+                    </p>
+                </div>
+
+                <div class="member-card">
+                    <div class="flex justify-between" style="margin-bottom: 4px;">
+                        <div>
+                            <h3 style="display:inline-block; margin-right:8px;">婕㚬</h3>
+                            <span class="pill pill-emerald">Concept</span>
+                        </div>
+                        <span style="font-size: 11px; font-weight: bold; color: #10b981;">Garena、宜鼎、地球館</span>
+                    </div>
+                    <p class="desc-text">
+                        <strong>亮點：</strong>擔綱《Garena》帕魯風格概念繪製主力；高水準產出《宜鼎》精緻分鏡。<br>
+                        <strong>支援：</strong>協助《地球館》分鏡素材與《MSI龍》KV 反饋修改。<br>
+                        <strong style="color: #e11d48;">注意：</strong>擔綱大量極高精度概念圖，須謹防過度燃燒，必要時需向主管反映排程。
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Column: Director Group -->
+        <div class="col-right">
+            <div class="card top-border-rose">
+                <div class="flex justify-between items-center" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+                    <h2 style="border: none; margin: 0; padding: 0;">🎬 導演組</h2>
+                    <span class="pill pill-gray">Loading: 100%</span>
+                </div>
+
+                <div class="timeline">
+                    <!-- Director Item: Shao-Chian -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot dot-rose"></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3>劭謙</h3>
+                        </div>
+                        <div class="task-box">
+                            <div class="flex justify-between" style="font-size: 12px; margin-bottom: 8px;">
+                                <span>Garena / MSI / ROG</span> <span style="color: #059669; font-weight: bold;">Pitch / Prod</span>
+                            </div>
+                            <p class="desc-text" style="margin-top: 0;">
+                                <strong>執行：</strong>推進 Garena 剪輯與 MSI 腳本 Previz；處理 ROG BV 與泓德剪輯。<br>
+                                <strong>新案：</strong>月底啟動 ROG PC Controller 腳本構思，準備提案。<br>
+                                <strong style="color: #e11d48;">注意：</strong>負責多個高層級大案，Computex 展前客戶端變數多，需預留彈性修改時間。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Director Item: A-Huang -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot dot-emerald"></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3>阿晃</h3>
+                        </div>
+                        <div class="task-box">
+                            <div class="flex justify-between" style="font-size: 12px; margin-bottom: 8px;">
+                                <span>地球館 / MSI / TASA</span> <span style="color: #10b981; font-weight: bold;">Heavy</span>
+                            </div>
+                            <p class="desc-text" style="margin-top: 0;">
+                                <strong>執行：</strong>消化地球館龐大資料，確認生物與分鏡；進行 MSI 腳本定裝與 PPM。<br>
+                                <strong>進展：</strong>推進 TASA 初剪並完成新竹實地場勘。<br>
+                                <strong style="color: #e11d48;">注意：</strong>《地球館》這類超大型專案設定繁雜，需確保前期美術資源與客戶確認無縫接軌。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Director Item: Bo-An -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot dot-amber"></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3>柏安</h3>
+                        </div>
+                        <div class="task-box">
+                            <div class="flex justify-between" style="font-size: 12px; margin-bottom: 8px;">
+                                <span>大凶 / 反派 / 專案交接</span> <span style="color: #e11d48; font-weight: bold;">Handover</span>
+                            </div>
+                            <p class="desc-text" style="margin-top: 0;">
+                                <strong>執行：</strong>推進大凶長短版測試與反派劇本討論。<br>
+                                <strong>交接：</strong>妥善交接 ROG 20th 顯卡與 Acer 專案，準備四月育嬰假。<br>
+                                <strong style="color: #e11d48;">注意：</strong>育嬰假前交接期極為關鍵，務必留下詳盡的專案進度與客戶「眉角」紀錄給接手人。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Director Item: Xiao-Gao -->
+                    <div class="timeline-item" style="margin-bottom: 0;">
+                        <div class="timeline-dot dot-sky"></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3>小高</h3>
+                            <span class="pill pill-sky" style="margin-left: 8px;">Onboard</span>
+                        </div>
+                        <div class="task-box">
+                            <div class="flex justify-between" style="font-size: 12px; margin-bottom: 8px;">
+                                <span>Showreel / 宜鼎 / ROG</span> <span style="color: #0284c7; font-weight: bold;">實戰接手</span>
+                            </div>
+                            <p class="desc-text" style="margin-top: 0;">
+                                <strong>執行：</strong>順利完成部門 Showreel 剪輯；接手宜鼎腳本更新與 Concept。<br>
+                                <strong>推進：</strong>推進 ROG 線材腳本，並開始消化國館新案資料。<br>
+                                <strong style="color: #e11d48;">注意：</strong>新進實戰，需主動且快速掌握內部跨部門協作流程與 Computex 品牌慣例。
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Risk & Rejection Section (Full Width Horizontal) -->
+    <div class="card flex justify-between" style="background: #fff1f2; border-color: #ffe4e6; flex-wrap: wrap; border-left: 8px solid #f43f5e; align-items: flex-start;">
+        
+        <!-- Left: Rejection List -->
+        <div style="margin-bottom: 16px; flex: 1; min-width: 300px; margin-right: 24px;">
+            <h2 style="border: none; margin: 0 0 16px 0; padding: 0; color: #e11d48; display: flex; align-items: center; font-size: 18px;">
+                ⚠️ 風險與回絕紀錄
+            </h2>
+            <ul style="font-size: 13px; color: #9f1239; line-height: 1.8; list-style: none;">
+                <li style="margin-bottom: 4px;">• <span class="pill pill-rose" style="font-size: 10px; margin-right: 4px;">回絕</span> <strong>故宮_陶器案</strong>：三月底需提案，因導演時程嚴重打架而回絕。</li>
+                <li style="margin-bottom: 4px;">• <span class="pill pill-rose" style="font-size: 10px; margin-right: 4px;">回絕</span> <strong>ROG 20th_產品案</strong>：含實拍且相當複雜，評估後不承接。</li>
+                <li>• <span class="pill pill-rose" style="font-size: 10px; margin-right: 4px;">回絕</span> <strong>VyinRis (動畫部)</strong>：時程卡死 Computex 提案期，無法承接。</li>
+            </ul>
+        </div>
+
+        <!-- Right: Actionable Risk Points (List Layout) -->
+        <div style="margin-bottom: 16px; flex: 1; min-width: 300px;">
+            <h2 style="border: none; margin: 0 0 16px 0; padding: 0; color: #be123c; display: flex; align-items: center; font-size: 18px;">
+                🎯 提防與把關重點
+            </h2>
+            <ul style="font-size: 13px; color: #9f1239; line-height: 1.8; list-style: none;">
+                <li style="margin-bottom: 4px;">• <span class="pill pill-rose" style="font-size: 10px; margin-right: 4px; background: #fecdd3; color: #be123c;">把關</span> <strong>死線排擠</strong>：Computex 專案無延期空間，4-5月重疊新案極易爆件，無額外人力絕勿接手。</li>
+                <li style="margin-bottom: 4px;">• <span class="pill pill-rose" style="font-size: 10px; margin-right: 4px; background: #fecdd3; color: #be123c;">提防</span> <strong>複雜度陷阱</strong>：嚴格審視「實拍+多零碎物件」複合案，防產能滿載時跨部門溝通失控。</li>
+                <li>• <span class="pill pill-rose" style="font-size: 10px; margin-right: 4px; background: #fecdd3; color: #be123c;">提防</span> <strong>交接斷層</strong>：育嬰假與離職潮同時發生，務必確實落實文件化紀錄與客戶端「眉角」交接。</li>
+            </ul>
+        </div>
+        
+    </div>
+
+</div>
+
+</body>
+</html>
